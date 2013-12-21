@@ -1,0 +1,49 @@
+#!/bin/sh
+
+#This is the bootstrap file and it will create all other file which are required
+#to create the ./configure and make to work.
+
+# Step 1: We have to create m4 directory as for the Library toolchain m4 directory
+# palys very important role and without it the project will not properly configure
+
+mkdir m4
+
+# Step 2: We have to run aclocal, as I know that we can do things with autoreconf
+# but will give edge to do things in between things.
+
+aclocal
+
+# Step 3: We have to do the Header Configuration through autoheader. As some experts
+# wonder why to use autoheader as its required only to generate config.h. The file can
+# be created manually but it is used so that any Important symbol doesn't missed from
+# describing.
+
+autoheader
+
+# Step 4: Now all the settings are done now we have to autoconf the project as it will
+# create important required file which is required to be use Initilize Library tools.
+
+autoconf
+
+# Step 5: Now we have the configure file and its time to use libtoolize and it will 
+# insert copy the important library file required for compilation of Shared or Static
+# Library. Most of the files include Macros which are used to set the commands to
+# configure Project according required type of library
+
+libtoolize --copy
+
+# Step 6: After making the insertion of Library support we now needed to generate the 
+# automake file which are required for ./configure run and make run
+
+automake --add-missing --copy
+
+# Step 7: As we can run ./configure run command here let us re configure all the things
+# if we missed out to run important commands. This time we don't need to do all the things
+# again just one command to re check and do things again
+
+autoreconf
+
+# Step 8: Since we have re configured the Project thus it is required to re run automake
+# which is not the part of autoreconf
+
+automake
